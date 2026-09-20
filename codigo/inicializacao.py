@@ -12,9 +12,13 @@ def gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa):
     # Além disso, a posição gerada deve ser adicionada à lista de posições ocupadas.
     
     # O código abaixo é apenas um exemplo. Você deve apagar este código e escrever o seu, fazendo o que foi pedido acima.
-    x = randint(1, largura_mapa-2)
-    y = randint(1, altura_mapa-2)
-    posicao = [x, y]
+    while True:
+        x = randint(1, largura_mapa-2)
+        y = randint(1, altura_mapa-2)
+        posicao = [x, y]
+        if posicao not in posicoes_ocupadas:
+            break
+    
     return posicao
 
 
