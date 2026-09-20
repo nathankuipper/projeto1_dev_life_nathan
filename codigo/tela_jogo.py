@@ -12,8 +12,32 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
     motor.preenche_fundo(janela, PRETO)
     
     # O seu código deve desenhar a tela do jogo aqui a partir dos valores no dicionário "estado"
-    # APAGUE ESTA LINHA E A LINHA ABAIXO E ESCREVA SEU CÓDIGO AQUI
-    motor.desenha_string(janela, 0, altura_tela // 2, 'APAGUE ESTA LINHA', PRETO, BRANCO)
+
+    altura_mapa = len(estado["mapa"])
+    largura_mapa = len(estado["mapa"][0])
+
+    inicio_y = (altura_tela - altura_mapa) // 2
+    inicio_x = (largura_tela - largura_mapa) // 2
+
+    #desenha o mapa
+    for v in range(altura_mapa):
+        for h in range(largura_mapa):
+            motor.desenha_string(janela, inicio_x + h, inicio_y + v, ' ', VERDE_ESCURO, BRANCO)
+
+    #desenha os objetos
+    for obj in estado["objetos"]:
+        motor.desenha_string(janela, obj["posicao"][0] + inicio_x, obj["posicao"][1] + inicio_y, obj["tipo"], VERDE_ESCURO, obj["cor"])
+
+    #desenha o jogador
+    motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , '@', VERDE_ESCURO, AZUL)
+
+    #desenha as vidas
+    motor.desenha_string(janela, inicio_x, inicio_y - 2, str(estado["vidas"]), PRETO, VERMELHO)
+
+    #desenha a mensagem
+    motor.desenha_string(janela, inicio_x, inicio_y + altura_mapa + 2, estado["mensagem"], PRETO, BRANCO)
+
+
 
     motor.mostra_janela(janela)
 

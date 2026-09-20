@@ -17,6 +17,7 @@ def gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa):
         y = randint(1, altura_mapa-2)
         posicao = [x, y]
         if posicao not in posicoes_ocupadas:
+            posicoes_ocupadas.append(posicao)
             break
     
     return posicao
