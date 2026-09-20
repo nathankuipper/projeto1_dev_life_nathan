@@ -9,26 +9,26 @@ Coloque aqui o link para o vídeo, de no máximo 2 minutos, do jogo: [LINK VÍDE
 No nível básico você deve entender o código fornecido e implementar as seguintes funcionalidades (marque com `x` as que já tiver concluido - nós utilizaremos este checklist para corrigir seu projeto):
 
 - [x] Configurar o Git e o GitHub (já deixamos esta primeira tarefa marcada como feita);
-- [ ] Implementar a função `gera_posicao_desocupada`;
-    - [ ] Devolver uma posição aleatória dentro do mapa;
-    - [ ] Adicionar a posição à lista de posições ocupadas.
-- [ ] Implementar a função `desenha_tela`:
-    - [ ] Mostrar mapa;
-    - [ ] Mostrar jogador;
-    - [ ] Mostrar objetos;
+- [x] Implementar a função `gera_posicao_desocupada`;
+    - [x] Devolver uma posição aleatória dentro do mapa;
+    - [x] Adicionar a posição à lista de posições ocupadas.
+- [x] Implementar a função `desenha_tela`:
+    - [x] Mostrar mapa;
+    - [x] Mostrar jogador;
+    - [x] Mostrar objetos;
     - [ ] Mostrar quantidade de vidas (se o jogador tiver menos vidas do que o máximo, o restante deve ser mostrado como corações brancos - exemplo: 🧡🧡🧡🤍🤍);
-    - [ ] Mostrar mensagem.
-- [ ] Implementar a função `atualiza_estado`:
-    - [ ] Mover o jogador;
-    - [ ] Impedir o jogador de sair do mapa;
-    - [ ] Ao colidir com um coração:
-        - [ ] Remover o coração da lista de objetos;
-        - [ ] Aumentar uma vida caso ainda não esteja no máximo;
-        - [ ] Não aumentar caso contrário;
-        - [ ] Adicionar uma mensagem indicando o que aconteceu.
-    - [ ] Ao colidir com um espinho:
-        - [ ] Diminuir uma vida;
-        - [ ] Terminar o jogo caso tenha atingido zero vidas (mudar `estado['tela_atual']`).
+    - [x] Mostrar mensagem.
+- [x] Implementar a função `atualiza_estado`:
+    - [x] Mover o jogador;
+    - [x] Impedir o jogador de sair do mapa;
+    - [x] Ao colidir com um coração:
+        - [x] Remover o coração da lista de objetos;
+        - [x] Aumentar uma vida caso ainda não esteja no máximo;
+        - [x] Não aumentar caso contrário;
+        - [x] Adicionar uma mensagem indicando o que aconteceu.
+    - [x] Ao colidir com um espinho:
+        - [x] Diminuir uma vida;
+        - [x] Terminar o jogo caso tenha atingido zero vidas (mudar `estado['tela_atual']`).
 
 ### [Nível Proficiente](proficiente.md)
 

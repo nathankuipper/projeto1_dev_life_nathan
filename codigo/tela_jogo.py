@@ -52,8 +52,42 @@ def atualiza_estado(estado, tecla):
     # Começamos apagando a mensagem anterior, pois ela já foi mostrada no frame anterior
     estado['mensagem'] = ''
 
-    # Escreva seu código para atualizar o dicionário "estado" com base na tecla apertada pelo jogador aqui
-    # APAGUE ESTA LINHA E ESCREVA SEU CÓDIGO AQUI
+
+
+    if tecla == motor.SETA_ESQUERDA:
+        if not estado["pos_jogador"][0] == 0:
+            estado["pos_jogador"][0] -= 1
+
+    if tecla == motor.SETA_DIREITA:
+            if not estado["pos_jogador"][0] == len(estado["mapa"][0]) - 1:
+                estado["pos_jogador"][0] += 1
+
+    if tecla == motor.SETA_CIMA:
+            if not estado["pos_jogador"][1] == 0:
+                estado["pos_jogador"][1] -= 1
+
+    if tecla == motor.SETA_BAIXO:
+            if not estado["pos_jogador"][1] == len(estado["mapa"]) - 1:
+                estado["pos_jogador"][1] += 1
+
+    #colisões uhuul
+
+    for obj in estado["objetos"]:
+         if estado["pos_jogador"] == obj["posicao"]:
+            #qual bichinho
+            if obj["tipo"] == CORACAO:
+                if not estado["vidas"] == estado["max_vidas"]:
+                    estado["vidas"] += 1
+                    estado["mensagem"] = "Você coletou um coração e restaurou uma vida"
+                estado["objetos"].remove(obj)
+
+            if obj["tipo"] == ESPINHO:
+                 estado["vidas"] -= 1
+                 estado["mensagem"] = "Você perdeu 1 de vida"
+                 if estado["vidas"] == 0:
+                      estado['tela_atual'] = SAIR
+                      
+
 
     # Ao apertar a tecla 'i', o jogador deve ver o inventário
     if tecla == 'i':
