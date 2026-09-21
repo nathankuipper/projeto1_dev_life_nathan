@@ -63,20 +63,28 @@ def atualiza_estado(estado, tecla):
 
 
     if tecla == motor.SETA_ESQUERDA:
-        if not estado["pos_jogador"][0] == 0:
+        if (not estado["pos_jogador"][0] == 0) and estado["mapa"][estado["pos_jogador"][1]][estado["pos_jogador"][0] - 1] == " ":
             estado["pos_jogador"][0] -= 1
+        else:
+             estado["mensagem"] = "Você não pode andar alí doido!"
 
     if tecla == motor.SETA_DIREITA:
-            if not estado["pos_jogador"][0] == len(estado["mapa"][0]) - 1:
+            if (not estado["pos_jogador"][0] == len(estado["mapa"][0]) - 1) and estado["mapa"][estado["pos_jogador"][1]][estado["pos_jogador"][0] + 1] == " ":
                 estado["pos_jogador"][0] += 1
+            else:
+                estado["mensagem"] = "Você não pode andar alí doido!"
 
     if tecla == motor.SETA_CIMA:
-            if not estado["pos_jogador"][1] == 0:
+            if (not estado["pos_jogador"][1] == 0) and estado["mapa"][estado["pos_jogador"][1]-1][estado["pos_jogador"][0]] == " ":
                 estado["pos_jogador"][1] -= 1
+            else:
+                estado["mensagem"] = "Você não pode andar alí doido!"
 
     if tecla == motor.SETA_BAIXO:
-            if not estado["pos_jogador"][1] == len(estado["mapa"]) - 1:
+            if (not estado["pos_jogador"][1] == len(estado["mapa"]) - 1) and estado["mapa"][estado["pos_jogador"][1]+1][estado["pos_jogador"][0]] == " ":
                 estado["pos_jogador"][1] += 1
+            else:
+                estado["mensagem"] = "Você não pode andar alí doido!"
 
     #colisões uhuul
 
