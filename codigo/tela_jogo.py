@@ -22,7 +22,10 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
     #desenha o mapa
     for v in range(altura_mapa):
         for h in range(largura_mapa):
-            motor.desenha_string(janela, inicio_x + h, inicio_y + v, ' ', VERDE_ESCURO, BRANCO)
+            if estado["mapa"][v][h] == ' ':
+                motor.desenha_string(janela, inicio_x + h, inicio_y + v, ' ', VERDE_ESCURO, BRANCO)
+            else:
+                 motor.desenha_string(janela, inicio_x + h, inicio_y + v, PAREDE, MARROM_ESCURO, MARROM_ESCURO)
 
     #desenha os objetos
     for obj in estado["objetos"]:
@@ -31,11 +34,16 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
     #desenha o jogador
     motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , '@', VERDE_ESCURO, AZUL)
 
-    #desenha as vidas
-    motor.desenha_string(janela, inicio_x, inicio_y - 2, str(estado["vidas"]), PRETO, VERMELHO)
-
     #desenha a mensagem
     motor.desenha_string(janela, inicio_x, inicio_y + altura_mapa + 2, estado["mensagem"], PRETO, BRANCO)
+
+    #vidas
+    for i in range(estado["vidas"]):
+         motor.desenha_string(janela, inicio_x + i*2, inicio_y - 2, "❤", PRETO, VERMELHO)
+
+    for i in range(estado["vidas"], estado["max_vidas"]):
+             motor.desenha_string(janela, inicio_x + i*2, inicio_y - 2, "🤍", PRETO, BRANCO)
+         
 
 
 
@@ -95,3 +103,5 @@ def atualiza_estado(estado, tecla):
     # Termina o jogo se o jogador apertar ESC ou 'q'
     elif tecla == motor.ESCAPE or tecla =='q':
         estado['tela_atual'] = SAIR
+          
+     
