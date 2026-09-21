@@ -107,7 +107,8 @@ def gera_monstro(quantidade, tipo, cor, vidas, probabilidade_ataque, largura_map
             'posicao': posicao,
             'cor': cor,
             'vidas': vidas,
-            'probabilidade': probabilidade_ataque
+            'probabilidade': probabilidade_ataque,
+            'pode_andar': True
         })
 
     return objetos

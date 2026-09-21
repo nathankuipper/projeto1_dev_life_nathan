@@ -3,6 +3,7 @@ from constantes import *  # Você pode usar as constantes definidas em constante
                           # diretamente no código
 import motor_grafico as motor  # Utilize as funções do arquivo motor_grafico.py para desenhar na tela
                                # Por exemplo: motor.preenche_fundo(janela, [0, 0, 0]) preenche o fundo de preto
+import random
 
 
 def desenha_tela(janela, estado, altura_tela, largura_tela):
@@ -60,29 +61,54 @@ def atualiza_estado(estado, tecla):
     # Começamos apagando a mensagem anterior, pois ela já foi mostrada no frame anterior
     estado['mensagem'] = ''
 
+    #gera uma lista com as posuções dos monstros safados
+    pos_monstros = []
+    for obj in estado["objetos"]:
+         if obj["tipo"] == MONSTRO:
+              pos_monstros.append(obj["posicao"])
+
 
 
     if tecla == motor.SETA_ESQUERDA:
         if (not estado["pos_jogador"][0] == 0) and estado["mapa"][estado["pos_jogador"][1]][estado["pos_jogador"][0] - 1] == " ":
-            estado["pos_jogador"][0] -= 1
+
+            #vê se tem monstros ou não para atacar ou não
+            if not [estado["pos_jogador"][0]-1,estado["pos_jogador"][1]] in pos_monstros: 
+                estado["pos_jogador"][0] -= 1
+            else:
+                 atacar_monstro(estado, [estado["pos_jogador"][0]-1,estado["pos_jogador"][1]])
         else:
              estado["mensagem"] = "Você não pode andar alí doido!"
 
     if tecla == motor.SETA_DIREITA:
             if (not estado["pos_jogador"][0] == len(estado["mapa"][0]) - 1) and estado["mapa"][estado["pos_jogador"][1]][estado["pos_jogador"][0] + 1] == " ":
-                estado["pos_jogador"][0] += 1
+
+                #vê se tem monstros ou não para atacar ou não
+                if not [estado["pos_jogador"][0]+1,estado["pos_jogador"][1]] in pos_monstros: 
+                    estado["pos_jogador"][0] += 1
+                else:
+                    atacar_monstro(estado, [estado["pos_jogador"][0]+1,estado["pos_jogador"][1]])
             else:
                 estado["mensagem"] = "Você não pode andar alí doido!"
 
     if tecla == motor.SETA_CIMA:
             if (not estado["pos_jogador"][1] == 0) and estado["mapa"][estado["pos_jogador"][1]-1][estado["pos_jogador"][0]] == " ":
-                estado["pos_jogador"][1] -= 1
+
+                #vê se tem monstros ou não para atacar ou não
+                if not [estado["pos_jogador"][0],estado["pos_jogador"][1]-1] in pos_monstros: 
+                    estado["pos_jogador"][1] -= 1
+                else:
+                    atacar_monstro(estado, [estado["pos_jogador"][0],estado["pos_jogador"][1]-1])
             else:
                 estado["mensagem"] = "Você não pode andar alí doido!"
 
     if tecla == motor.SETA_BAIXO:
             if (not estado["pos_jogador"][1] == len(estado["mapa"]) - 1) and estado["mapa"][estado["pos_jogador"][1]+1][estado["pos_jogador"][0]] == " ":
-                estado["pos_jogador"][1] += 1
+                #vê se tem monstros ou não para atacar ou não
+                if not [estado["pos_jogador"][0],estado["pos_jogador"][1]+1] in pos_monstros: 
+                    estado["pos_jogador"][1] += 1
+                else:
+                    atacar_monstro(estado, [estado["pos_jogador"][0],estado["pos_jogador"][1]+1])
             else:
                 estado["mensagem"] = "Você não pode andar alí doido!"
 
@@ -102,6 +128,7 @@ def atualiza_estado(estado, tecla):
                  estado["mensagem"] = "Você perdeu 1 de vida"
                  if estado["vidas"] == 0:
                       estado['tela_atual'] = SAIR
+                 
                       
 
 
@@ -112,4 +139,19 @@ def atualiza_estado(estado, tecla):
     elif tecla == motor.ESCAPE or tecla =='q':
         estado['tela_atual'] = SAIR
           
-     
+
+def atacar_monstro(estado, pos_monstro):
+     for obj in estado["objetos"]:
+          if obj["posicao"] == pos_monstro:
+                if random.random() < obj["probabilidade"]:
+                    estado["mensagem"] = "Aquele bicho te atacou! aaahh"
+                    estado["vidas"] -= 1
+                    if estado["vidas"] == 0:
+                        estado['tela_atual'] = SAIR
+                else:
+                    estado["mensagem"] = "Você atacou o montro e ele perdeu 1 de vida"
+                    obj["vidas"] -= 1
+                    if obj["vidas"] == 0:
+                         estado["mensagem"] = "O monstro morreu tadinho..."
+                         estado["objetos"].remove(obj)
+                         estado["pos_jogador"] = pos_monstro
