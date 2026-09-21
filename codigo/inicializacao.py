@@ -83,6 +83,7 @@ def inicializa_estado():
     objetos = []
     objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas)
     objetos += gera_objetos(6, ESPINHO, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+    objetos += gera_monstro(5, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
     
     return {
         'tela_atual': TELA_JOGO,
@@ -93,3 +94,20 @@ def inicializa_estado():
         'mapa': mapa,
         'mensagem': '',  # Use esta mensagem para mostrar mensagens ao jogador, como "Você perdeu uma vida" ou "Você ganhou uma vida"
     }
+
+
+def gera_monstro(quantidade, tipo, cor, vidas, probabilidade_ataque, largura_mapa, altura_mapa, posicoes_ocupadas):
+    """gera monstros assustadores no mapa boooo!"""
+    objetos = []
+
+    for i in range(quantidade):
+        posicao = gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa)
+        objetos.append({
+            'tipo': tipo,
+            'posicao': posicao,
+            'cor': cor,
+            'vidas': vidas,
+            'probabilidade': probabilidade_ataque
+        })
+
+    return objetos
