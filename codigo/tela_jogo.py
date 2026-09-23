@@ -128,6 +128,8 @@ def atualiza_estado(estado, tecla):
                  estado["mensagem"] = "Você perdeu 1 de vida"
                  if estado["vidas"] == 0:
                       estado['tela_atual'] = SAIR
+
+    monstro_andar(estado)
                  
                       
 
@@ -143,6 +145,7 @@ def atualiza_estado(estado, tecla):
 def atacar_monstro(estado, pos_monstro):
      for obj in estado["objetos"]:
           if obj["posicao"] == pos_monstro:
+                obj["pode_andar"] = False
                 if random.random() < obj["probabilidade"]:
                     estado["mensagem"] = "Aquele bicho te atacou! aaahh"
                     estado["vidas"] -= 1
@@ -155,3 +158,30 @@ def atacar_monstro(estado, pos_monstro):
                          estado["mensagem"] = "O monstro morreu tadinho..."
                          estado["objetos"].remove(obj)
                          estado["pos_jogador"] = pos_monstro
+
+
+def monstro_andar(estado):
+     for obj in estado["objetos"]:
+          if obj["tipo"] == MONSTRO:
+                if obj["pode_andar"] == True:
+                    direcao = random.choice([1,2,3,4])
+
+                    #cima
+                    if direcao == 1:
+                        if (not obj["posicao"][1] == 0) and estado["mapa"][obj["posicao"][1]-1][obj["posicao"][0]] == ' ':
+                            obj["posicao"][1] -= 1
+                    #baixo
+                    if direcao == 2:
+                        if (not obj["posicao"][1] == len(estado["mapa"]) - 1) and estado["mapa"][obj["posicao"][1]+1][obj["posicao"][0]] == ' ':
+                            obj["posicao"][1] += 1
+                    #esquerda
+                    if direcao == 3:
+                        if (not obj["posicao"][0] == 0) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]-1] == ' ':
+                            obj["posicao"][0] -= 1
+                    #direita
+                    if direcao == 4:
+                        if (not obj["posicao"][0] == len(estado["mapa"][0]) - 1) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]+1] == ' ':
+                            obj["posicao"][0] += 1
+
+                else:
+                    obj["pode_andar"] = True
