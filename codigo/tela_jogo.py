@@ -33,7 +33,12 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
         motor.desenha_string(janela, obj["posicao"][0] + inicio_x, obj["posicao"][1] + inicio_y, obj["tipo"], VERDE_ESCURO, obj["cor"])
 
     #desenha o jogador
-    motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , '@', VERDE_ESCURO, AZUL)
+    if estado["equipamento"] == None:
+        motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , JOGADOR, VERDE_ESCURO, AZUL)
+    if estado["equipamento"] == "Espada":
+        motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , "😠", VERDE_ESCURO, AZUL)
+    if estado["equipamento"] == "Óculos":
+        motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , "😎", VERDE_ESCURO, AZUL)
 
     #desenha a mensagem
     motor.desenha_string(janela, inicio_x, inicio_y + altura_mapa + 2, estado["mensagem"], PRETO, BRANCO)
@@ -136,6 +141,7 @@ def atualiza_estado(estado, tecla):
 
     # Ao apertar a tecla 'i', o jogador deve ver o inventário
     if tecla == 'i':
+        estado['configs']['selecionado'] = 1
         estado['tela_atual'] = TELA_INVENTARIO
     # Termina o jogo se o jogador apertar ESC ou 'q'
     elif tecla == motor.ESCAPE or tecla =='q':
@@ -168,19 +174,19 @@ def monstro_andar(estado):
 
                     #cima
                     if direcao == 1:
-                        if (not obj["posicao"][1] == 0) and estado["mapa"][obj["posicao"][1]-1][obj["posicao"][0]] == ' ':
+                        if (not obj["posicao"][1] == 0) and estado["mapa"][obj["posicao"][1]-1][obj["posicao"][0]] == ' ' and not obj["posicao"][1]-1 == estado["pos_jogador"][1]:
                             obj["posicao"][1] -= 1
                     #baixo
                     if direcao == 2:
-                        if (not obj["posicao"][1] == len(estado["mapa"]) - 1) and estado["mapa"][obj["posicao"][1]+1][obj["posicao"][0]] == ' ':
+                        if (not obj["posicao"][1] == len(estado["mapa"]) - 1) and estado["mapa"][obj["posicao"][1]+1][obj["posicao"][0]] == ' ' and not obj["posicao"][1]+1 == estado["pos_jogador"][1]:
                             obj["posicao"][1] += 1
                     #esquerda
                     if direcao == 3:
-                        if (not obj["posicao"][0] == 0) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]-1] == ' ':
+                        if (not obj["posicao"][0] == 0) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]-1] == ' ' and not obj["posicao"][0]-1 == estado["pos_jogador"][0]:
                             obj["posicao"][0] -= 1
                     #direita
                     if direcao == 4:
-                        if (not obj["posicao"][0] == len(estado["mapa"][0]) - 1) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]+1] == ' ':
+                        if (not obj["posicao"][0] == len(estado["mapa"][0]) - 1) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]+1] == ' ' and not obj["posicao"][0]+1 == estado["pos_jogador"][0]:
                             obj["posicao"][0] += 1
 
                 else:
