@@ -24,7 +24,7 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
     for v in range(altura_mapa):
         for h in range(largura_mapa):
             if estado["mapa"][v][h] == ' ':
-                motor.desenha_string(janela, inicio_x + h, inicio_y + v, ' ', VERDE_ESCURO, BRANCO)
+                motor.desenha_string(janela, inicio_x + h, inicio_y + v, ' ', VERDE_ESCURO, VERDE_ESCURO)
             else:
                  motor.desenha_string(janela, inicio_x + h, inicio_y + v, PAREDE, MARROM_ESCURO, MARROM_ESCURO)
 
@@ -132,9 +132,19 @@ def atualiza_estado(estado, tecla):
                  estado["vidas"] -= 1
                  estado["mensagem"] = "Você perdeu 1 de vida"
                  if estado["vidas"] == 0:
-                      estado['tela_atual'] = SAIR
+                    if estado["equipamento"] == "Óculos":
+                        estado["equipamento"] = None
+                        estado["vidas"] = 1
+                        estado["mensagem"] = "Seu óculos quebrou"
+                    else:
+                        estado['tela_atual'] = SAIR
 
     monstro_andar(estado)
+
+    if estado["equipamento"] == "Espada":
+        estado["configs"]["dano"] = 2
+    else:
+        estado["configs"]["dano"] = 1
                  
                       
 
@@ -156,10 +166,15 @@ def atacar_monstro(estado, pos_monstro):
                     estado["mensagem"] = "Aquele bicho te atacou! aaahh"
                     estado["vidas"] -= 1
                     if estado["vidas"] == 0:
-                        estado['tela_atual'] = SAIR
+                        if estado["equipamento"] == "Óculos":
+                            estado["equipamento"] = None
+                            estado["vidas"] = 1
+                            estado["mensagem"] = "Seu óculos quebrou"
+                        else:
+                            estado['tela_atual'] = SAIR
                 else:
-                    estado["mensagem"] = "Você atacou o montro e ele perdeu 1 de vida"
-                    obj["vidas"] -= 1
+                    estado["mensagem"] = f"Você atacou o montro e ele perdeu {estado["configs"]["dano"]} de vida"
+                    obj["vidas"] -= estado["configs"]["dano"]
                     if obj["vidas"] == 0:
                          estado["mensagem"] = "O monstro morreu tadinho..."
                          estado["objetos"].remove(obj)

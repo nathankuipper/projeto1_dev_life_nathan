@@ -62,9 +62,14 @@ def atualiza_estado(estado, tecla_apertada):
     if tecla_apertada == motor.ESPACO:
         if estado["configs"]["selecionado"] == 1 and estado["itens"]["cura"] > 0:
             estado["itens"]["cura"] -= 1
+            if not estado["vidas"] > estado["max_vidas"] - 2:
+                estado["vidas"] += 2
+            else:
+                estado["vidas"] = estado["max_vidas"]
 
         if estado["configs"]["selecionado"] == 2 and estado["itens"]["vida_max"] > 0:
             estado["itens"]["vida_max"] -= 1
+            estado["max_vidas"] += 1
 
         if estado["configs"]["selecionado"] == 3 and estado["itens"]["espada"] > 0:
             estado["itens"]["espada"] -= 1

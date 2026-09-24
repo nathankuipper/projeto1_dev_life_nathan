@@ -84,6 +84,10 @@ def inicializa_estado():
     objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas)
     objetos += gera_objetos(6, ESPINHO, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
     objetos += gera_monstro(5, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
+    objetos += gera_objetos(3, VIDA_MAX, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+    objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+    objetos += gera_objetos(3, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+    objetos += gera_objetos(2, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
     
     return {
         'tela_atual': TELA_JOGO,
@@ -94,7 +98,7 @@ def inicializa_estado():
         'mapa': mapa,
         'mensagem': '',  # Use esta mensagem para mostrar mensagens ao jogador, como "Você perdeu uma vida" ou "Você ganhou uma vida"
         'itens': {"cura":0, "vida_max":0, "espada":2, "oculos": 3},
-        'configs': {'selecionado': 1, "mensagem": "", "maximo": 10, "peso":0},
+        'configs': {'selecionado': 1, "mensagem": "", "maximo": 10, "peso":0, "dano":1},
         'equipamento': None
     }
 

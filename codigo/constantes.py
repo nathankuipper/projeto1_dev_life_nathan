@@ -29,3 +29,7 @@ CORACAO = '❤'
 ESPINHO = '#'
 MONSTRO = '☠'
 PAREDE = '▣'
+VIDA_MAX = "🍾"
+POCAO_VIDA = "💊"
+ESPADA = "🗡"
+OCULOS = "🕶️"
