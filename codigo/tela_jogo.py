@@ -139,13 +139,44 @@ def atualiza_estado(estado, tecla):
                     else:
                         estado['tela_atual'] = SAIR
 
+            if obj["tipo"] == POCAO_VIDA:
+                if not estado["configs"]["peso"] == estado["configs"]["maximo"]:
+                    estado["itens"]["cura"] += 1
+                    estado["mensagem"] = "Você coletou uma poção de vida"
+                estado["objetos"].remove(obj)
+
+            if obj["tipo"] == VIDA_MAX:
+                if not estado["configs"]["peso"] == estado["configs"]["maximo"]:
+                    estado["itens"]["vida_max"] += 1
+                    estado["mensagem"] = "Você coletou uma poção de aumentar a vida"
+                estado["objetos"].remove(obj)
+
+            if obj["tipo"] == ESPADA:
+                if not estado["configs"]["peso"] == estado["configs"]["maximo"]:
+                    estado["itens"]["espada"] += 1
+                    estado["mensagem"] = "Você coletou uma espada"
+                estado["objetos"].remove(obj)
+
+            if obj["tipo"] == OCULOS:
+                if not estado["configs"]["peso"] == estado["configs"]["maximo"]:
+                    estado["itens"]["oculos"] += 1
+                    estado["mensagem"] = "Você coletou um óculos"
+                estado["objetos"].remove(obj)
+
+            
+
     monstro_andar(estado)
 
     if estado["equipamento"] == "Espada":
         estado["configs"]["dano"] = 2
     else:
         estado["configs"]["dano"] = 1
-                 
+
+    peso = 0
+    for i in estado["itens"].values():
+        peso += i
+    estado["configs"]["peso"] = peso
+                
                       
 
 
@@ -175,7 +206,7 @@ def atacar_monstro(estado, pos_monstro):
                 else:
                     estado["mensagem"] = f"Você atacou o montro e ele perdeu {estado["configs"]["dano"]} de vida"
                     obj["vidas"] -= estado["configs"]["dano"]
-                    if obj["vidas"] == 0:
+                    if obj["vidas"] <= 0:
                          estado["mensagem"] = "O monstro morreu tadinho..."
                          estado["objetos"].remove(obj)
                          estado["pos_jogador"] = pos_monstro
