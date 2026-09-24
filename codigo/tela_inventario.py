@@ -31,7 +31,7 @@ def desenha_tela(janela, estado, altura, largura):
     motor.desenha_string(janela, 1, 25, estado["configs"]["mensagem"], BRANCO, PRETO)
 
     #peso
-    motor.desenha_string(janela, 50, 25, f'CAPACIDADE: {estado["configs"]["peso"]}/10', BRANCO, PRETO)
+    motor.desenha_string(janela, 50, 25, f'CAPACIDADE: {estado["configs"]["peso"]}/{estado["configs"]["maximo"]}', BRANCO, PRETO)
     for i in range(estado["configs"]["peso"]):
         motor.desenha_string(janela, 50+i, 26, '|', BRANCO, PRETO)
 

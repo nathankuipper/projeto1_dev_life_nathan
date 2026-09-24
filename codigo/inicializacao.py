@@ -95,7 +95,8 @@ def inicializa_estado():
         'mensagem': '',  # Use esta mensagem para mostrar mensagens ao jogador, como "Você perdeu uma vida" ou "Você ganhou uma vida"
         'itens': {"cura":0, "vida_max":0, "espada":2, "oculos": 3},
         'configs': {'selecionado': 1, "mensagem": "", "maximo": 10, "peso":0, "dano":1},
-        'equipamento': None
+        'equipamento': None,
+        'experiencia': {'xp': 0, 'nivel':1}
     }
 
 

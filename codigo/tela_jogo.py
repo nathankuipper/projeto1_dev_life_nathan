@@ -49,6 +49,9 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
 
     for i in range(estado["vidas"], estado["max_vidas"]):
              motor.desenha_string(janela, inicio_x + i*2, inicio_y - 2, "🤍", PRETO, BRANCO)
+
+    #nivel
+    motor.desenha_string(janela, inicio_x+40, inicio_y-2, f"nivel: {estado["experiencia"]["nivel"]}, XP:{estado["experiencia"]["xp"]}/10", PRETO, BRANCO)
          
 
 
@@ -207,9 +210,16 @@ def atacar_monstro(estado, pos_monstro):
                     estado["mensagem"] = f"Você atacou o montro e ele perdeu {estado["configs"]["dano"]} de vida"
                     obj["vidas"] -= estado["configs"]["dano"]
                     if obj["vidas"] <= 0:
-                         estado["mensagem"] = "O monstro morreu tadinho..."
+                         estado["mensagem"] = "O monstro morreu e você ganhou 2 de xp"
                          estado["objetos"].remove(obj)
                          estado["pos_jogador"] = pos_monstro
+                         estado["experiencia"]["xp"] += 2
+                         if estado["experiencia"]["xp"] >= 10:
+                             estado["experiencia"]["xp"] = 0
+                             estado["experiencia"]["nivel"] += 1
+                             estado["configs"]["maximo"] += 1
+                             estado["mensagem"] = "Você evoluiu de nivel e aumentou a mochila"
+
 
 
 def monstro_andar(estado):
