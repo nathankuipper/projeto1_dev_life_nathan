@@ -20,7 +20,7 @@ MARROM_MAIS_ESCURO = [75, 40, 0]
 SAIR = 0
 TELA_JOGO = 1
 TELA_INVENTARIO = 2
-
+TELA_INICIO = 3
 # Objetos
 # As constantes abaixo são os caracteres que representam cada objeto no mapa.
 # Você pode mudar os caracteres para o que preferir.
@@ -33,3 +33,4 @@ VIDA_MAX = "🍾"
 POCAO_VIDA = "💊"
 ESPADA = "🗡"
 OCULOS = "🕶️"
+COBRA = "O"

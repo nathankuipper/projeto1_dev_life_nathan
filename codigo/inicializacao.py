@@ -84,9 +84,10 @@ def inicializa_estado():
     objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
     objetos += gera_objetos(3, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
     objetos += gera_objetos(2, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+    objetos += gera_monstro(3, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
     
     return {
-        'tela_atual': TELA_JOGO,
+        'tela_atual': TELA_INICIO,
         'pos_jogador': pos_jogador,
         'vidas': 5,  # Quantidade atual de vidas do jogador - ele pode perder vidas ao colidir com espinhos ou ganhar vidas ao pegar corações
         'max_vidas': 5,  # Quantidade máxima de vidas que o jogador pode ter - o valor da chave 'vidas' nunca pode ser maior que o valor da chave 'max_vidas'
@@ -107,12 +108,15 @@ def gera_monstro(quantidade, tipo, cor, vidas, probabilidade_ataque, largura_map
     for i in range(quantidade):
         posicao = gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa)
         objetos.append({
-            'tipo': tipo,
+            'tipo': MONSTRO,
             'posicao': posicao,
             'cor': cor,
             'vidas': vidas,
             'probabilidade': probabilidade_ataque,
-            'pode_andar': True
+            'pode_andar': True,
+            'categoria': tipo,
+            'anteriores': [[posicao[0]-1,posicao[1]], [posicao[0]-2,posicao[1]], [posicao[0]-3,posicao[1]]],
+            'anterior': 4
         })
 
     return objetos

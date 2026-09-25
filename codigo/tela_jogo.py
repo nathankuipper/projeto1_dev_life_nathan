@@ -30,7 +30,13 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
 
     #desenha os objetos
     for obj in estado["objetos"]:
-        motor.desenha_string(janela, obj["posicao"][0] + inicio_x, obj["posicao"][1] + inicio_y, obj["tipo"], VERDE_ESCURO, obj["cor"])
+        if obj["tipo"] == MONSTRO:
+            motor.desenha_string(janela, obj["posicao"][0] + inicio_x, obj["posicao"][1] + inicio_y, obj["categoria"], VERDE_ESCURO, obj["cor"])
+            if obj["categoria"] == COBRA:
+                for rabo in obj["anteriores"]:
+                    motor.desenha_string(janela, rabo[0] + inicio_x, rabo[1] + inicio_y, "o", VERDE_ESCURO, obj["cor"])
+        else:
+            motor.desenha_string(janela, obj["posicao"][0] + inicio_x, obj["posicao"][1] + inicio_y, obj["tipo"], VERDE_ESCURO, obj["cor"])
 
     #desenha o jogador
     if estado["equipamento"] == None:
@@ -148,19 +154,19 @@ def atualiza_estado(estado, tecla):
                     estado["mensagem"] = "Você coletou uma poção de vida"
                 estado["objetos"].remove(obj)
 
-            if obj["tipo"] == VIDA_MAX:
+            elif obj["tipo"] == VIDA_MAX:
                 if not estado["configs"]["peso"] == estado["configs"]["maximo"]:
                     estado["itens"]["vida_max"] += 1
                     estado["mensagem"] = "Você coletou uma poção de aumentar a vida"
                 estado["objetos"].remove(obj)
 
-            if obj["tipo"] == ESPADA:
+            elif obj["tipo"] == ESPADA:
                 if not estado["configs"]["peso"] == estado["configs"]["maximo"]:
                     estado["itens"]["espada"] += 1
                     estado["mensagem"] = "Você coletou uma espada"
                 estado["objetos"].remove(obj)
 
-            if obj["tipo"] == OCULOS:
+            elif obj["tipo"] == OCULOS:
                 if not estado["configs"]["peso"] == estado["configs"]["maximo"]:
                     estado["itens"]["oculos"] += 1
                     estado["mensagem"] = "Você coletou um óculos"
@@ -224,7 +230,8 @@ def atacar_monstro(estado, pos_monstro):
 
 def monstro_andar(estado):
      for obj in estado["objetos"]:
-          if obj["tipo"] == MONSTRO:
+        if obj["tipo"] == MONSTRO:
+            if obj["categoria"] == MONSTRO:
                 if obj["pode_andar"] == True:
                     direcao = random.choice([1,2,3,4])
 
@@ -247,3 +254,76 @@ def monstro_andar(estado):
 
                 else:
                     obj["pode_andar"] = True
+
+            elif obj["categoria"] == COBRA:
+                if obj["pode_andar"] == True:
+                    direcao = random.choice([1,2,3,4])
+
+                    #cima
+                    if direcao == 1:
+                        if (not obj["posicao"][1] == 0) and estado["mapa"][obj["posicao"][1]-1][obj["posicao"][0]] == ' ' and not obj["posicao"][1]-1 == estado["pos_jogador"][1] and not obj["anterior"] == 2:
+                            obj["anterior"] = 1
+
+                            obj["anteriores"][2][0] = obj['anteriores'][1][0]
+                            obj["anteriores"][2][1] = obj['anteriores'][1][1]
+
+                            obj["anteriores"][1][0] = obj['anteriores'][0][0]
+                            obj["anteriores"][1][1] = obj['anteriores'][0][1]
+
+                            obj["anteriores"][0][0] = obj['posicao'][0]
+                            obj["anteriores"][0][1] = obj['posicao'][1]
+
+                            obj["posicao"][1] -= 1
+
+                    #baixo
+                    if direcao == 2:
+                        if (not obj["posicao"][1] == len(estado["mapa"]) - 1) and estado["mapa"][obj["posicao"][1]+1][obj["posicao"][0]] == ' ' and not obj["posicao"][1]+1 == estado["pos_jogador"][1] and not obj["anterior"] == 1:
+                            obj["anterior"] = 2
+
+                            obj["anteriores"][2][0] = obj['anteriores'][1][0]
+                            obj["anteriores"][2][1] = obj['anteriores'][1][1]
+
+                            obj["anteriores"][1][0] = obj['anteriores'][0][0]
+                            obj["anteriores"][1][1] = obj['anteriores'][0][1]
+
+                            obj["anteriores"][0][0] = obj['posicao'][0]
+                            obj["anteriores"][0][1] = obj['posicao'][1]
+
+                            obj["posicao"][1] += 1
+
+                    #esquerda
+                    if direcao == 3:
+                        if (not obj["posicao"][0] == 0) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]-1] == ' ' and not obj["posicao"][0]-1 == estado["pos_jogador"][0] and not obj["anterior"] == 4:
+                            obj["anterior"] = 3
+
+                            obj["anteriores"][2][0] = obj['anteriores'][1][0]
+                            obj["anteriores"][2][1] = obj['anteriores'][1][1]
+
+                            obj["anteriores"][1][0] = obj['anteriores'][0][0]
+                            obj["anteriores"][1][1] = obj['anteriores'][0][1]
+
+                            obj["anteriores"][0][0] = obj['posicao'][0]
+                            obj["anteriores"][0][1] = obj['posicao'][1]
+                            
+                            obj["posicao"][0] -= 1
+
+                    #direita
+                    if direcao == 4:
+                        if (not obj["posicao"][0] == len(estado["mapa"][0]) - 1) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]+1] == ' ' and not obj["posicao"][0]+1 == estado["pos_jogador"][0] and not obj["anterior"] == 3:
+                            obj["anterior"] = 4
+
+                            obj["anteriores"][2][0] = obj['anteriores'][1][0]
+                            obj["anteriores"][2][1] = obj['anteriores'][1][1]
+
+                            obj["anteriores"][1][0] = obj['anteriores'][0][0]
+                            obj["anteriores"][1][1] = obj['anteriores'][0][1]
+
+                            obj["anteriores"][0][0] = obj['posicao'][0]
+                            obj["anteriores"][0][1] = obj['posicao'][1]
+                            
+                            obj["posicao"][0] += 1
+
+                else:
+                    obj["pode_andar"] = True
+
+        
