@@ -1,4 +1,5 @@
 from random import randint
+import ast
 
 from constantes import *  # Você pode usar as constantes definidas em constantes.py, se achar útil
                           # Por exemplo, usar a constante CORACAO é o mesmo que colocar a string '❤'
@@ -55,7 +56,7 @@ def inicializa_estado():
     # Cria lista de listas, cada uma com 50 espaços em branco
     # Você pode mudar esta lista, inclusive seu tamanho, à vontade
     mapa = []
-    with open("mapa.txt", "r", encoding="utf-8") as arquivo:
+    with open("mapa1.txt", "r", encoding="utf-8") as arquivo:
         texto = arquivo.read().split("\n")
         for linha in texto:
             eixo = []
@@ -85,9 +86,41 @@ def inicializa_estado():
     objetos += gera_objetos(3, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
     objetos += gera_objetos(2, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
     objetos += gera_monstro(3, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
+
+    #guarda em um arquivo a lista dos objetos
+    with open("objetos.txt", "w", encoding="utf-8") as arquivo:
+        arquivo.write("")
+
+    linhas = []
+    for i in range(2):
+        posicoes_ocupadas = [pos_jogador]
+        objetos = []
+        objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas)
+        objetos += gera_objetos(6, ESPINHO, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+        objetos += gera_monstro(5, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
+        objetos += gera_objetos(3, VIDA_MAX, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+        objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+        objetos += gera_objetos(3, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+        objetos += gera_objetos(2, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+        objetos += gera_monstro(3, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
+        #linhas.append(str(objetos))
+        with open("objetos.txt", "a", encoding="utf-8") as arquivo:
+            arquivo.write(str(objetos) + "\n")
+
+    # with open("objetos.txt", "w", encoding="utf-8") as arquivo:
+    #     #print(linhas)
+    #     arquivo.writelines(linhas)
+
+    with open("objetos.txt", "r", encoding="utf-8") as arquivo:
+        listas_de_objetos = [
+            ast.literal_eval(linha.strip())
+            for linha in arquivo
+            if linha.strip()
+            ]
+    objetos = listas_de_objetos[0]
     
     return {
-        'tela_atual': TELA_INICIO,
+        'tela_atual': TELA_JOGO,
         'pos_jogador': pos_jogador,
         'vidas': 5,  # Quantidade atual de vidas do jogador - ele pode perder vidas ao colidir com espinhos ou ganhar vidas ao pegar corações
         'max_vidas': 5,  # Quantidade máxima de vidas que o jogador pode ter - o valor da chave 'vidas' nunca pode ser maior que o valor da chave 'max_vidas'
@@ -95,7 +128,7 @@ def inicializa_estado():
         'mapa': mapa,
         'mensagem': '',  # Use esta mensagem para mostrar mensagens ao jogador, como "Você perdeu uma vida" ou "Você ganhou uma vida"
         'itens': {"cura":0, "vida_max":0, "espada":2, "oculos": 3},
-        'configs': {'selecionado': 1, "mensagem": "", "maximo": 10, "peso":0, "dano":1},
+        'configs': {'selecionado': 1, "mensagem": "", "maximo": 10, "peso":0, "dano":1, "tela":1},
         'equipamento': None,
         'experiencia': {'xp': 0, 'nivel':1}
     }

@@ -4,6 +4,7 @@ from constantes import *  # Você pode usar as constantes definidas em constante
 import motor_grafico as motor  # Utilize as funções do arquivo motor_grafico.py para desenhar na tela
                                # Por exemplo: motor.preenche_fundo(janela, [0, 0, 0]) preenche o fundo de preto
 import random
+import ast
 
 
 def desenha_tela(janela, estado, altura_tela, largura_tela):
@@ -41,9 +42,9 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
     #desenha o jogador
     if estado["equipamento"] == None:
         motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , JOGADOR, VERDE_ESCURO, AZUL)
-    if estado["equipamento"] == "Espada":
+    elif estado["equipamento"] == "Espada":
         motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , "😠", VERDE_ESCURO, AZUL)
-    if estado["equipamento"] == "Óculos":
+    elif estado["equipamento"] == "Óculos":
         motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , "😎", VERDE_ESCURO, AZUL)
 
     #desenha a mensagem
@@ -185,6 +186,12 @@ def atualiza_estado(estado, tecla):
     for i in estado["itens"].values():
         peso += i
     estado["configs"]["peso"] = peso
+
+    if tecla == "l":
+        trocar_mapa(2, [1,1], estado)
+
+    if tecla == "k":
+        trocar_mapa(1, [1,1], estado)
                 
                       
 
@@ -327,3 +334,34 @@ def monstro_andar(estado):
                     obj["pode_andar"] = True
 
         
+def trocar_mapa(numero, entrada, estado):
+    mapa = []
+    with open(f"mapa{numero}.txt", "r", encoding="utf-8") as arquivo:
+        texto = arquivo.read().split("\n")
+        for linha in texto:
+            eixo = []
+            for caractere in linha:
+                if caractere == "-":
+                    eixo.append(" ")
+                else:
+                    eixo.append("▣")
+            mapa.append(eixo)
+        estado["mapa"] = mapa
+    with open("objetos.txt", "r", encoding="utf-8") as arquivo:
+        listas_de_objetos = [
+            ast.literal_eval(linha.strip())
+            for linha in arquivo
+            if linha.strip()
+            ]
+
+    #salva de volta a posicao
+    with open("objetos.txt", "r", encoding="utf-8") as arquivo:
+        linhas = arquivo.readlines()
+
+    linhas[estado["configs"]["tela"]-1] = str(estado["objetos"]) + "\n"
+    with open("objetos.txt", "w", encoding="utf-8") as arquivo:
+        arquivo.writelines(linhas)
+    
+    estado["objetos"] = listas_de_objetos[numero-1]
+    estado["pos_jogador"] = entrada
+    estado["configs"]["tela"] = numero
