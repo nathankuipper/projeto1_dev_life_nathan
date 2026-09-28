@@ -3,9 +3,7 @@ import motor_grafico as motor
 
 
 def desenha_tela(janela, estado, altura, largura):
-    # Você pode usar esta função como base para a sua função desenha_tela do arquivo tela_jogo.py
-    # Esta tela é mostrada quando o jogador aperta a tecla 'i' (você provavelmente vai querer 
-    # alterar este arquivo no nível avançado)
+
     motor.preenche_fundo(janela, BRANCO)
 
     motor.desenha_string(janela, 1, 1, 'INVENTARIO', BRANCO, PRETO)
@@ -27,6 +25,32 @@ def desenha_tela(janela, estado, altura, largura):
     motor.desenha_string(janela, 50, 9, 'EQUIPAMENTO', BRANCO, PRETO)
     motor.desenha_string(janela, 50, 10, '----------', BRANCO, PRETO)
     motor.desenha_string(janela, 50, 14, f"|{estado["equipamento"]}|", BRANCO, PRETO)
+
+    #desenha o mapa
+    motor.desenha_string(janela, 65, 9, 'MAPA', BRANCO, PRETO)
+    motor.desenha_string(janela, 65, 10, '----', BRANCO, PRETO)
+
+    if estado["configs"]["tela"] == 1:
+        motor.desenha_string(janela, 65, 14, ' ', VERDE_CLARO, VERDE_CLARO)
+        motor.desenha_string(janela, 64, 14, ' ', VERDE_CLARO, VERDE_CLARO)
+    else:
+        motor.desenha_string(janela, 65, 14, ' ', AMARELO, AMARELO)
+        motor.desenha_string(janela, 64, 14, ' ', AMARELO, AMARELO)
+
+    if estado["configs"]["tela"] == 2:
+        motor.desenha_string(janela, 68, 14, ' ', VERDE_CLARO, VERDE_CLARO)
+        motor.desenha_string(janela, 69, 14, ' ', VERDE_CLARO, VERDE_CLARO)
+    else:
+        motor.desenha_string(janela, 68, 14, ' ', AMARELO, AMARELO)
+        motor.desenha_string(janela, 69, 14, ' ', AMARELO, AMARELO)
+
+    if estado["configs"]["tela"] == 3:
+        motor.desenha_string(janela, 68, 14, ' ', VERDE_CLARO, VERDE_CLARO)
+        motor.desenha_string(janela, 69, 14, ' ', VERDE_CLARO, VERDE_CLARO)
+    else:
+        motor.desenha_string(janela, 68, 12, ' ', AMARELO, AMARELO)
+        motor.desenha_string(janela, 69, 12, ' ', AMARELO, AMARELO)
+    
 
     #mensagem
     motor.desenha_string(janela, 1, 25, estado["configs"]["mensagem"], BRANCO, PRETO)

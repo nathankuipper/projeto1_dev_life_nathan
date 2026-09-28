@@ -209,9 +209,9 @@ def atualiza_estado(estado, tecla):
         trocar_mapa(1, [48,7], estado)
 
     if estado["pos_jogador"][1] == 0:
-        trocar_mapa(3, [24,13], estado)
+        trocar_mapa(3, [24,18], estado)
 
-    if estado["pos_jogador"][1] == 14:
+    if estado["pos_jogador"][1] == 19:
         trocar_mapa(2, [24,1], estado)
 
     # Ao apertar a tecla 'i', o jogador deve ver o inventário
