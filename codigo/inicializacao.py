@@ -92,7 +92,7 @@ def inicializa_estado():
         arquivo.write("")
 
     linhas = []
-    for i in range(2):
+    for i in range(3):
         posicoes_ocupadas = [pos_jogador]
         objetos = []
         #objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas)

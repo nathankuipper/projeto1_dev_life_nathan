@@ -200,6 +200,12 @@ def atualiza_estado(estado, tecla):
     if estado["pos_jogador"][0] == 0:
         trocar_mapa(1, [48,7], estado)
 
+    if estado["pos_jogador"][1] == 0:
+        trocar_mapa(3, [24,13], estado)
+
+    if estado["pos_jogador"][1] == 14:
+        trocar_mapa(2, [24,1], estado)
+
     # Ao apertar a tecla 'i', o jogador deve ver o inventário
     if tecla == 'i':
         estado['configs']['selecionado'] = 1
