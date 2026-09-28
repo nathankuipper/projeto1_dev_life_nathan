@@ -18,6 +18,7 @@ def desenha_tela(janela, estado, altura, largura):
     motor.desenha_string(janela, 5, 14, f"Poção aumentar vida: {estado["itens"]["vida_max"]}", BRANCO, PRETO)
     motor.desenha_string(janela, 5, 16, f"Espada: {estado["itens"]["espada"]}", BRANCO, PRETO)
     motor.desenha_string(janela, 5, 18, f"Óculos: {estado["itens"]["oculos"]}", BRANCO, PRETO)
+    motor.desenha_string(janela, 5, 20, f"Repelente: {estado["itens"]["repelente"]}", BRANCO, PRETO)
 
     #desenhar a seta selecionada
     motor.desenha_string(janela, 2, estado["configs"]["selecionado"]*2 + 10, ">>>", BRANCO, PRETO)
@@ -40,7 +41,7 @@ def desenha_tela(janela, estado, altura, largura):
 
 
 def atualiza_estado(estado, tecla_apertada):
-    mensagens = ["Restaura dois pontos de vida", "Aumenta em um sua vida máxima", "Aumenta seu dano", "Te proteje caso você morra"]
+    mensagens = ["Restaura dois pontos de vida", "Aumenta em um sua vida máxima", "Aumenta seu dano", "Te proteje caso você morra", "Os monstros não chegam perto de você"]
 
     peso = 0
     for i in estado["itens"].values():
@@ -51,13 +52,13 @@ def atualiza_estado(estado, tecla_apertada):
     #selecionar item
     if tecla_apertada == motor.SETA_BAIXO:
         estado["configs"]["selecionado"] += 1
-        if estado["configs"]["selecionado"] == 5:
+        if estado["configs"]["selecionado"] == 6:
             estado["configs"]["selecionado"] = 1
 
     if tecla_apertada == motor.SETA_CIMA:
             estado["configs"]["selecionado"] -= 1
             if estado["configs"]["selecionado"] == 0:
-                estado["configs"]["selecionado"] = 4
+                estado["configs"]["selecionado"] = 5
 
     if tecla_apertada == motor.ESPACO:
         if estado["configs"]["selecionado"] == 1 and estado["itens"]["cura"] > 0:
@@ -79,6 +80,9 @@ def atualiza_estado(estado, tecla_apertada):
             if estado["equipamento"] == "Óculos":
                 estado["itens"]["oculos"] += 1
 
+            if estado["equipamento"] == "Repelente":
+                estado["itens"]["repelente"] += 1
+
             estado["equipamento"] = "Espada"
 
         if estado["configs"]["selecionado"] == 4 and estado["itens"]["oculos"] > 0:
@@ -88,8 +92,24 @@ def atualiza_estado(estado, tecla_apertada):
 
             if estado["equipamento"] == "Óculos":
                 estado["itens"]["oculos"] += 1
+
+            if estado["equipamento"] == "Repelente":
+                estado["itens"]["repelente"] += 1
                 
             estado["equipamento"] = "Óculos"
+
+        if estado["configs"]["selecionado"] == 5 and estado["itens"]["repelente"] > 0:
+            estado["itens"]["repelente"] -= 1
+            if estado["equipamento"] == "Espada":
+                estado["itens"]["espada"] += 1
+
+            if estado["equipamento"] == "Óculos":
+                estado["itens"]["oculos"] += 1
+
+            if estado["equipamento"] == "Repelente":
+                estado["itens"]["repelente"] += 1
+                
+            estado["equipamento"] = "Repelente"
 
     if tecla_apertada == "e":
         if estado["configs"]["selecionado"] == 1 and estado["itens"]["cura"] > 0:

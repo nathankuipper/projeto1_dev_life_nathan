@@ -36,4 +36,6 @@ POCAO_VIDA = "💊"
 ESPADA = "🗡"
 OCULOS = "🕶️"
 COBRA = "O"
-PERSEGUIDOR = "Ç"
+PERSEGUIDOR = "👿"
+REPELENTE = "🥤"
+

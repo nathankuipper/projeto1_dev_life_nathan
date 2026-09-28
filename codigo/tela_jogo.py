@@ -46,6 +46,8 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
         motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , "😠", VERDE_ESCURO, AZUL)
     elif estado["equipamento"] == "Óculos":
         motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , "😎", VERDE_ESCURO, AZUL)
+    elif estado["equipamento"] == "Repelente":
+        motor.desenha_string(janela, estado["pos_jogador"][0] + inicio_x, estado["pos_jogador"][1] + inicio_y , "🤢", VERDE_ESCURO, AZUL)
 
     #desenha a mensagem
     motor.desenha_string(janela, inicio_x, inicio_y + altura_mapa + 2, estado["mensagem"], PRETO, BRANCO)
@@ -173,6 +175,12 @@ def atualiza_estado(estado, tecla):
                     estado["mensagem"] = "Você coletou um óculos"
                 estado["objetos"].remove(obj)
 
+            elif obj["tipo"] == REPELENTE:
+                if not estado["configs"]["peso"] == estado["configs"]["maximo"]:
+                    estado["itens"]["repelente"] += 1
+                    estado["mensagem"] = "Você coletou um repelente"
+                estado["objetos"].remove(obj)
+
             
 
     monstro_andar(estado)
@@ -257,6 +265,9 @@ def atacar_monstro(estado, pos_monstro):
 def monstro_andar(estado):
      for obj in estado["objetos"]:
         if obj["tipo"] == MONSTRO:
+            if estado["equipamento"] == "Repelente" and ((obj["posicao"][0] - estado["pos_jogador"][0])**2 + (obj["posicao"][1] - estado["pos_jogador"][1])**2)**0.5 < 3:
+                obj["pode_andar"] = False
+
             if obj["categoria"] == MONSTRO:
                 if obj["pode_andar"] == True:
                     direcao = random.choice([1,2,3,4])

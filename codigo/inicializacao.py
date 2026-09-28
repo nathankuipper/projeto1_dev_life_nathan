@@ -6,7 +6,7 @@ from constantes import *  # Você pode usar as constantes definidas em constante
                           # diretamente no código
 
 
-def gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa):
+def gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa, mapa):
     # Implemente esta função para o nível básico
     # A função deve retornar uma posição aleatória dentro da janela que não esteja na lista de posições ocupadas.
     # Uma posição é uma lista com exatas dois elementos: a posição x e a posição y.
@@ -17,14 +17,14 @@ def gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa):
         x = randint(1, largura_mapa-2)
         y = randint(1, altura_mapa-2)
         posicao = [x, y]
-        if posicao not in posicoes_ocupadas:
+        if posicao not in posicoes_ocupadas and not mapa[y][x] == PAREDE:
             posicoes_ocupadas.append(posicao)
             break
     
     return posicao
 
 
-def gera_objetos(quantidade, tipo, cor, largura_mapa, altura_mapa, posicoes_ocupadas):
+def gera_objetos(quantidade, tipo, cor, largura_mapa, altura_mapa, posicoes_ocupadas, mapa):
     """
     Esta função já está pronta, você não precisa modificá-la.
 
@@ -42,7 +42,7 @@ def gera_objetos(quantidade, tipo, cor, largura_mapa, altura_mapa, posicoes_ocup
     objetos = []
 
     for i in range(quantidade):
-        posicao = gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa)
+        posicao = gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa, mapa)
         objetos.append({
             'tipo': tipo,
             'posicao': posicao,
@@ -77,15 +77,6 @@ def inicializa_estado():
     
     # Cria outros objetos do mapa
     posicoes_ocupadas = [pos_jogador]
-    objetos = []
-    objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas)
-    objetos += gera_objetos(6, ESPINHO, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-    objetos += gera_monstro(5, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
-    objetos += gera_objetos(3, VIDA_MAX, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-    objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-    objetos += gera_objetos(3, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-    objetos += gera_objetos(2, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-    objetos += gera_monstro(3, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
 
     #guarda em um arquivo a lista dos objetos
     with open("objetos.txt", "w", encoding="utf-8") as arquivo:
@@ -95,15 +86,16 @@ def inicializa_estado():
     for i in range(3):
         posicoes_ocupadas = [pos_jogador]
         objetos = []
-        #objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas)
-        objetos += gera_objetos(6, ESPINHO, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-        #objetos += gera_monstro(5, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
-        objetos += gera_objetos(3, VIDA_MAX, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-        #objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-        objetos += gera_objetos(3, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-        objetos += gera_objetos(2, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-        #objetos += gera_monstro(3, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
-        objetos += gera_monstro(1, PERSEGUIDOR, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
+        #objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        objetos += gera_objetos(6, ESPINHO, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        #objetos += gera_monstro(5, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        objetos += gera_objetos(3, VIDA_MAX, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        #objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        objetos += gera_objetos(3, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        objetos += gera_objetos(2, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        #objetos += gera_monstro(3, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        objetos += gera_monstro(1, PERSEGUIDOR, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        objetos += gera_objetos(1, REPELENTE, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
       
         with open("objetos.txt", "a", encoding="utf-8") as arquivo:
             arquivo.write(str(objetos) + "\n")
@@ -128,19 +120,19 @@ def inicializa_estado():
         'objetos': objetos,
         'mapa': mapa,
         'mensagem': '',  # Use esta mensagem para mostrar mensagens ao jogador, como "Você perdeu uma vida" ou "Você ganhou uma vida"
-        'itens': {"cura":0, "vida_max":0, "espada":2, "oculos": 3},
+        'itens': {"cura":0, "vida_max":0, "espada":2, "oculos": 3, "repelente": 1},
         'configs': {'selecionado': 1, "mensagem": "", "maximo": 10, "peso":0, "dano":1, "tela":1},
         'equipamento': None,
         'experiencia': {'xp': 0, 'nivel':1}
     }
 
 
-def gera_monstro(quantidade, tipo, cor, vidas, probabilidade_ataque, largura_mapa, altura_mapa, posicoes_ocupadas):
+def gera_monstro(quantidade, tipo, cor, vidas, probabilidade_ataque, largura_mapa, altura_mapa, posicoes_ocupadas, mapa):
     """gera monstros assustadores no mapa boooo!"""
     objetos = []
 
     for i in range(quantidade):
-        posicao = gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa)
+        posicao = gera_posicao_desocupada(posicoes_ocupadas, largura_mapa, altura_mapa, mapa)
         objetos.append({
             'tipo': MONSTRO,
             'posicao': posicao,
