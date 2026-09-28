@@ -95,15 +95,16 @@ def inicializa_estado():
     for i in range(2):
         posicoes_ocupadas = [pos_jogador]
         objetos = []
-        objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas)
+        #objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas)
         objetos += gera_objetos(6, ESPINHO, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-        objetos += gera_monstro(5, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
+        #objetos += gera_monstro(5, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
         objetos += gera_objetos(3, VIDA_MAX, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-        objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
+        #objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
         objetos += gera_objetos(3, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
         objetos += gera_objetos(2, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas)
-        objetos += gera_monstro(3, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
-        #linhas.append(str(objetos))
+        #objetos += gera_monstro(3, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
+        objetos += gera_monstro(1, PERSEGUIDOR, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas)
+      
         with open("objetos.txt", "a", encoding="utf-8") as arquivo:
             arquivo.write(str(objetos) + "\n")
 

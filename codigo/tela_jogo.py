@@ -61,7 +61,7 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
     motor.desenha_string(janela, inicio_x+40, inicio_y-2, f"nivel: {estado["experiencia"]["nivel"]}, XP:{estado["experiencia"]["xp"]}/10", PRETO, BRANCO)
          
 
-
+    motor.desenha_string(janela, 1, 1, str(estado["pos_jogador"]), PRETO, BRANCO)
 
     motor.mostra_janela(janela)
 
@@ -194,7 +194,11 @@ def atualiza_estado(estado, tecla):
         trocar_mapa(1, [1,1], estado)
                 
                       
+    if estado["pos_jogador"][0] == 49:
+        trocar_mapa(2, [1,7], estado)
 
+    if estado["pos_jogador"][0] == 0:
+        trocar_mapa(1, [48,7], estado)
 
     # Ao apertar a tecla 'i', o jogador deve ver o inventário
     if tecla == 'i':
@@ -223,11 +227,20 @@ def atacar_monstro(estado, pos_monstro):
                     estado["mensagem"] = f"Você atacou o montro e ele perdeu {estado["configs"]["dano"]} de vida"
                     obj["vidas"] -= estado["configs"]["dano"]
                     if obj["vidas"] <= 0:
-                         estado["mensagem"] = "O monstro morreu e você ganhou 2 de xp"
-                         estado["objetos"].remove(obj)
-                         estado["pos_jogador"] = pos_monstro
-                         estado["experiencia"]["xp"] += 2
-                         if estado["experiencia"]["xp"] >= 10:
+                        if obj["categoria"] == MONSTRO:
+                            estado["mensagem"] = "O monstro morreu e você ganhou 2 de xp"
+                            estado["experiencia"]["xp"] += 2
+                        elif obj["categoria"] == COBRA:
+                            estado["mensagem"] = "O monstro morreu e você ganhou 4 de xp"
+                            estado["experiencia"]["xp"] += 4
+
+                        elif obj["categoria"] == PERSEGUIDOR:
+                            estado["mensagem"] = "O monstro morreu e você ganhou 5 de xp"
+                            estado["experiencia"]["xp"] += 5
+                         
+                        estado["objetos"].remove(obj)
+                        estado["pos_jogador"] = pos_monstro
+                        if estado["experiencia"]["xp"] >= 10:
                              estado["experiencia"]["xp"] = 0
                              estado["experiencia"]["nivel"] += 1
                              estado["configs"]["maximo"] += 1
@@ -330,8 +343,47 @@ def monstro_andar(estado):
                             
                             obj["posicao"][0] += 1
 
+            elif obj["categoria"] == PERSEGUIDOR:
+                if obj["pode_andar"] == True:
+                    if abs(obj["posicao"][1] - estado["pos_jogador"][1]) > abs(obj["posicao"][0] - estado["pos_jogador"][0]):
+                        if obj["posicao"][1] - estado["pos_jogador"][1] > 0:
+                            direcao = 1
+                        else:
+                            direcao = 2
+                    else:
+                        if obj["posicao"][0] - estado["pos_jogador"][0] > 0:
+                            direcao = 3
+                        else:
+                            direcao = 4
+
+                    #cima
+                    if direcao == 1:
+                        if (not obj["posicao"][1] == 0) and estado["mapa"][obj["posicao"][1]-1][obj["posicao"][0]] == ' ' and not obj["posicao"][1]-1 == estado["pos_jogador"][1]:
+
+                            obj["posicao"][1] -= 1
+
+                    #baixo
+                    if direcao == 2:
+                        if (not obj["posicao"][1] == len(estado["mapa"]) - 1) and estado["mapa"][obj["posicao"][1]+1][obj["posicao"][0]] == ' ' and not obj["posicao"][1]+1 == estado["pos_jogador"][1]:
+
+                            obj["posicao"][1] += 1
+
+                    #esquerda
+                    if direcao == 3:
+                        if (not obj["posicao"][0] == 0) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]-1] == ' ' and not obj["posicao"][0]-1 == estado["pos_jogador"][0]:
+                            
+                            obj["posicao"][0] -= 1
+
+                    #direita
+                    if direcao == 4:
+                        if (not obj["posicao"][0] == len(estado["mapa"][0]) - 1) and estado["mapa"][obj["posicao"][1]][obj["posicao"][0]+1] == ' ' and not obj["posicao"][0]+1 == estado["pos_jogador"][0]:
+                            
+                            obj["posicao"][0] += 1
+            
+
                 else:
                     obj["pode_andar"] = True
+
 
         
 def trocar_mapa(numero, entrada, estado):
