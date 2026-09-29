@@ -180,7 +180,7 @@ def atualiza_estado(estado, tecla):
                 estado["objetos"].remove(obj)
 
             elif obj["tipo"] == CHAVE:
-                estado["itens"]["chaves"] += 1
+                estado["chaves"] += 1
                 estado["mensagem"] = "Você coletou uma chave... talvez eu deva tentar achar mais algumas"
                 estado["objetos"].remove(obj)
 
@@ -444,7 +444,7 @@ def trocar_mapa(numero, entrada, estado):
     estado["objetos"] = listas_de_objetos[numero-1]
     estado["pos_jogador"] = entrada
     estado["configs"]["tela"] = numero
-    if estado["configs"]["tela"] == 1 and estado["itens"]["chaves"] == 3:
+    if estado["configs"]["tela"] == 1 and estado["chaves"] == 3:
         estado["mapa"][0][7] = " "
         estado["mapa"][0][8] = " "
         estado["mapa"][0][9] = " "

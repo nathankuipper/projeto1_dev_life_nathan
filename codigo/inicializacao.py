@@ -125,10 +125,11 @@ def inicializa_estado():
         'objetos': objetos,
         'mapa': mapa,
         'mensagem': '',  # Use esta mensagem para mostrar mensagens ao jogador, como "Você perdeu uma vida" ou "Você ganhou uma vida"
-        'itens': {"cura":0, "vida_max":0, "espada":2, "oculos": 3, "repelente": 1, "chaves":0},
+        'itens': {"cura":0, "vida_max":0, "espada":2, "oculos": 3, "repelente": 1},
         'configs': {'selecionado': 1, "mensagem": "", "maximo": 10, "peso":0, "dano":1, "tela":1},
         'equipamento': None,
-        'experiencia': {'xp': 0, 'nivel':1}
+        'experiencia': {'xp': 0, 'nivel':1},
+        'chaves': 0
     }
 
 
