@@ -63,8 +63,6 @@ def desenha_tela(janela, estado, altura_tela, largura_tela):
     motor.desenha_string(janela, inicio_x+40, inicio_y-2, f"nivel: {estado["experiencia"]["nivel"]}, XP:{estado["experiencia"]["xp"]}/10", PRETO, BRANCO)
          
 
-    motor.desenha_string(janela, 1, 1, str(estado["pos_jogador"]), PRETO, BRANCO)
-
     motor.mostra_janela(janela)
 
 
@@ -149,7 +147,7 @@ def atualiza_estado(estado, tecla):
                         estado["vidas"] = 1
                         estado["mensagem"] = "Seu óculos quebrou"
                     else:
-                        estado['tela_atual'] = SAIR
+                        estado['tela_atual'] = TELA_GAMEOVER
 
             if obj["tipo"] == POCAO_VIDA:
                 if not estado["configs"]["peso"] == estado["configs"]["maximo"]:
@@ -181,6 +179,11 @@ def atualiza_estado(estado, tecla):
                     estado["mensagem"] = "Você coletou um repelente"
                 estado["objetos"].remove(obj)
 
+            elif obj["tipo"] == CHAVE:
+                estado["itens"]["chaves"] += 1
+                estado["mensagem"] = "Você coletou uma chave... talvez eu deva tentar achar mais algumas"
+                estado["objetos"].remove(obj)
+
             
 
     monstro_andar(estado)
@@ -208,11 +211,17 @@ def atualiza_estado(estado, tecla):
     if estado["pos_jogador"][0] == 0:
         trocar_mapa(1, [48,7], estado)
 
-    if estado["pos_jogador"][1] == 0:
+    if estado["pos_jogador"][1] == 0 and estado["configs"]["tela"] == 2:
         trocar_mapa(3, [24,18], estado)
 
-    if estado["pos_jogador"][1] == 19:
+    if estado["pos_jogador"][1] == 0 and estado["configs"]["tela"] == 1:
+        trocar_mapa(4, [24,18], estado)
+
+    if estado["pos_jogador"][1] == 19 and estado["configs"]["tela"] == 3:
         trocar_mapa(2, [24,1], estado)
+
+    if estado["pos_jogador"][1] == 19 and estado["configs"]["tela"] == 4:
+        trocar_mapa(1, [8,1], estado)
 
     # Ao apertar a tecla 'i', o jogador deve ver o inventário
     if tecla == 'i':
@@ -236,7 +245,7 @@ def atacar_monstro(estado, pos_monstro):
                             estado["vidas"] = 1
                             estado["mensagem"] = "Seu óculos quebrou"
                         else:
-                            estado['tela_atual'] = SAIR
+                            estado['tela_atual'] = TELA_GAMEOVER
                 else:
                     estado["mensagem"] = f"Você atacou o montro e ele perdeu {estado["configs"]["dano"]} de vida"
                     obj["vidas"] -= estado["configs"]["dano"]
@@ -423,6 +432,7 @@ def trocar_mapa(numero, entrada, estado):
             if linha.strip()
             ]
 
+    
     #salva de volta a posicao
     with open("objetos.txt", "r", encoding="utf-8") as arquivo:
         linhas = arquivo.readlines()
@@ -434,3 +444,8 @@ def trocar_mapa(numero, entrada, estado):
     estado["objetos"] = listas_de_objetos[numero-1]
     estado["pos_jogador"] = entrada
     estado["configs"]["tela"] = numero
+    if estado["configs"]["tela"] == 1 and estado["itens"]["chaves"] == 3:
+        estado["mapa"][0][7] = " "
+        estado["mapa"][0][8] = " "
+        estado["mapa"][0][9] = " "
+        estado["mapa"][0][10] = " "

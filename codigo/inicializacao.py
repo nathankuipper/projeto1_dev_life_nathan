@@ -83,20 +83,25 @@ def inicializa_estado():
         arquivo.write("")
 
     linhas = []
-    for i in range(3):
+    for i in range(4):
         posicoes_ocupadas = [pos_jogador]
         objetos = []
-        #objetos += gera_objetos(8, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-        objetos += gera_objetos(6, ESPINHO, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-        #objetos += gera_monstro(5, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-        objetos += gera_objetos(3, VIDA_MAX, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-        #objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-        objetos += gera_objetos(3, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-        objetos += gera_objetos(2, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-        #objetos += gera_monstro(3, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-        objetos += gera_monstro(1, PERSEGUIDOR, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-        objetos += gera_objetos(1, REPELENTE, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
-      
+        if not i == 3:
+            objetos += gera_objetos(4, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_objetos(5, ESPINHO, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_monstro(3, MONSTRO, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_objetos(3, VIDA_MAX, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_objetos(4, POCAO_VIDA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_objetos(1, ESPADA, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_objetos(1, OCULOS, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_monstro(2, COBRA, PRETO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_monstro(1, PERSEGUIDOR, ROXO, 5, 0.3, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_objetos(1, REPELENTE, VERDE_CLARO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_objetos(1, CHAVE, AMARELO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        else:
+            objetos += gera_objetos(20, CORACAO, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+            objetos += gera_objetos(7, VIDA_MAX, VERMELHO, largura_mapa, altura_mapa, posicoes_ocupadas, mapa)
+        
         with open("objetos.txt", "a", encoding="utf-8") as arquivo:
             arquivo.write(str(objetos) + "\n")
 
@@ -120,7 +125,7 @@ def inicializa_estado():
         'objetos': objetos,
         'mapa': mapa,
         'mensagem': '',  # Use esta mensagem para mostrar mensagens ao jogador, como "Você perdeu uma vida" ou "Você ganhou uma vida"
-        'itens': {"cura":0, "vida_max":0, "espada":2, "oculos": 3, "repelente": 1},
+        'itens': {"cura":0, "vida_max":0, "espada":2, "oculos": 3, "repelente": 1, "chaves":0},
         'configs': {'selecionado': 1, "mensagem": "", "maximo": 10, "peso":0, "dano":1, "tela":1},
         'equipamento': None,
         'experiencia': {'xp': 0, 'nivel':1}

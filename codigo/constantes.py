@@ -38,4 +38,5 @@ OCULOS = "🕶️"
 COBRA = "O"
 PERSEGUIDOR = "👿"
 REPELENTE = "🥤"
+CHAVE = "🗝"
 
